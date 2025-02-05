@@ -1,4 +1,4 @@
-# Python x Yaml CV GEn :)
+# Python x Yaml CV GEn 📄
 
 Un générateur de CV professionnel utilisant Flask et WeasyPrint pour créer des CV élégants au format HTML et PDF à partir de données YAML.
 
@@ -9,39 +9,57 @@ Un générateur de CV professionnel utilisant Flask et WeasyPrint pour créer de
 - Design moderne avec sidebar
 - Support des emojis
 - Mise en page optimisée pour le format A4
-- Personnalisation du contenu du CV via fichier YAML
+- Personnalisation via fichier YAML
 - Support du HTML dans les textes
+- Conteneurisation Docker
 
 ## 🚀 Installation
 
-### Prérequis
-
-- Python 3.8 ou supérieur
-- pip
-- WeasyPrint (nécessite des dépendances système)
-- Flask
-
-### Installation des dépendances système (pour WeasyPrint)
-
-#### Debian/Ubuntu
-```bash
-sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
-```
-
-#### MacOS
-```bash
-brew install cairo pango gdk-pixbuf libffi
-```
-
-### Installation du projet
+### Option 1 : Avec Docker (recommandé)
 
 1. Cloner le dépôt :
 ```bash
 git clone [URL_DU_REPO]
-cd python-x-yaml-cv-generator
+cd cv-generator
 ```
 
-2. Créer un environnement virtuel :
+2. Construire et lancer avec Docker Compose :
+```bash
+docker-compose up -d --build
+```
+
+Ou avec Docker directement :
+```bash
+# Construire l'image
+docker build -t cv-generator .
+
+# Lancer le conteneur
+docker run -d -p 5000:5000 -v $(pwd)/cv_sample.yaml:/app/cv_sample.yaml:ro --name cv-generator cv-generator
+```
+
+### Option 2 : Installation locale
+
+#### Prérequis
+
+- Python 3.8 ou supérieur
+- pip
+- WeasyPrint (nécessite des dépendances système)
+
+#### Dépendances système (pour WeasyPrint)
+
+Pour Debian/Ubuntu :
+```bash
+sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+```
+
+Pour MacOS :
+```bash
+brew install cairo pango gdk-pixbuf libffi
+```
+
+#### Installation du projet
+
+1. Créer un environnement virtuel :
 ```bash
 python -m venv venv
 source venv/bin/activate  # Linux/MacOS
@@ -49,20 +67,20 @@ source venv/bin/activate  # Linux/MacOS
 .\venv\Scripts\activate  # Windows
 ```
 
-3. Installer les dépendances Python :
+2. Installer les dépendances Python :
 ```bash
 pip install -r requirements.txt
 ```
 
 ## 📝 Configuration
 
-1. Créer votre fichier CV en YAML (cf cv_sample.yaml pour la structure complète) :
+1. Créer votre fichier CV en YAML :
 ```yaml
 cv:
   resume:
     summary: "Votre résumé professionnel"
   experiences:
-    - period: "2025 - Aujourd'hui"
+    - period: "2023 - Aujourd'hui"
       company: "Entreprise"
       title: "Poste"
       responsibilities:
@@ -71,16 +89,11 @@ cv:
 
 2. Ajouter votre photo de profil :
    - Placez votre photo au format JPG dans le dossier du projet
-   - Nommez-la `photo.jpg`
+   - Nommez-la `photo_sample.jpg`
 
 ## 🖥️ Utilisation
 
-1. Lancer l'application :
-```bash
-python app.py
-```
-
-2. Accéder à l'interface :
+1. Accéder à l'interface :
    - Ouvrir `http://localhost:5000` dans votre navigateur
    - Visualiser votre CV en HTML
    - Utiliser le bouton "Télécharger en PDF" pour obtenir la version PDF
@@ -90,19 +103,24 @@ python app.py
 ```
 cv-generator/
 ├── app.py               # Application Flask
-├── cv_sample.yaml       # Données du CV
+├── cv_sample.yaml       # Exemple de CV
 ├── photo_sample.jpg     # Photo de profil
 ├── requirements.txt     # Dépendances Python
+├── Dockerfile           # Configuration Docker
+├── docker-compose.yml   # Configuration Docker Compose
 └── templates/
     └── cv_template.html # Template du CV
 ```
 
 ## 📋 Format YAML
 
-Le fichier YAML accepte les balises HTML dans les champs texte :
+Le fichier YAML supporte les balises HTML :
 ```yaml
 title: "<strong>Développeur Full Stack</strong>"
 ```
+
+### Exemple Complet
+Voir le fichier `cv_sample.yaml` pour un exemple complet de structure.
 
 ## ⚙️ Personnalisation
 
@@ -115,9 +133,21 @@ title: "<strong>Développeur Full Stack</strong>"
 - Les emojis sont supportés dans tous les champs texte
 - Utilisez-les pour les titres de sections ou les compétences
 
+## 🐳 Docker
+
+### Variables d'environnement
+- `FLASK_APP`: Nom de l'application Flask (défaut: app.py)
+- `FLASK_ENV`: Environnement Flask (défaut: production)
+
+### Volumes
+Le fichier `cv_sample.yaml` est monté en lecture seule dans le conteneur.
+
+### Ports
+Le port 5000 est exposé et peut être mappé selon vos besoins.
+
 ## 📄 Licence
 
-MIT License - voir le fichier [LICENSE](https://github.com/popallo/python-x-cv-generator?tab=MIT-1-ov-file) pour plus de détails.
+MIT License - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## 🤝 Contribution
 
@@ -130,4 +160,4 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ## 📧 Contact
 
-Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue ou à me contacter.
+Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue.
