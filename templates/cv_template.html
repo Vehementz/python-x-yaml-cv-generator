@@ -172,6 +172,7 @@
 
         .download-btn:hover {
             background-color: #3b82f6;
+            cursor: pointer; 
         }
     </style>
 </head>
@@ -244,7 +245,7 @@
         {% if show_download %}
         <div style="text-align: center;" class="no-print">
             <a href="/" class="download-btn">Retour</a>
-            <button onclick="window.print()" class="download-btn">Télécharger en PDF</button>
+            <a onclick="window.print()" class="download-btn">Télécharger en PDF</a>
         </div>
         {% endif %}
     </div>
