@@ -4,7 +4,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./cv_aurelien.yaml:/app/cv_aurelien.yaml:ro  # Montage du CV en lecture seule
+      - ./cv_sample.yaml:/app/cv_sample.yaml:ro
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=production
