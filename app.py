@@ -1,8 +1,6 @@
-from flask import Flask, render_template, send_file, request, abort
+from flask import Flask, render_template, abort
 import yaml
-from weasyprint import HTML
 import base64
-from io import BytesIO
 import os
 from config.settings import *
 
@@ -83,40 +81,6 @@ def show_cv(cv_id):
         cv_id=cv_id,  # On ajoute l'ID ici
         photo=photo_base64,
         show_download=True
-    )
-
-@app.route('/download-pdf/<cv_id>')
-def download_pdf(cv_id):
-    """Télécharge le CV en PDF"""
-    cv_path = get_cv_path(cv_id)
-    if not cv_path:
-        abort(404)
-    
-    cv_data = load_yaml_data(cv_path)
-    if not cv_data:
-        abort(500)
-        
-    photo_path = get_photo_path(cv_id)
-    photo_base64 = get_base64_photo(photo_path)
-    if not photo_base64:
-        abort(500)
-    
-    html_content = render_template(
-        'cv_template.html',
-        cv=cv_data['cv'],
-        photo=photo_base64,
-        show_download=False
-    )
-    
-    pdf = HTML(string=html_content).write_pdf()
-    pdf_buffer = BytesIO(pdf)
-    pdf_buffer.seek(0)
-    
-    return send_file(
-        pdf_buffer,
-        mimetype='application/pdf',
-        as_attachment=True,
-        download_name=f'cv_{cv_id}.pdf'
     )
 
 if __name__ == '__main__':
