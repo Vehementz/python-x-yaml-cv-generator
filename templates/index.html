@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur de CV</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+        .cv-list {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .cv-item {
+            margin: 10px 0;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .cv-item:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+        .cv-item a {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: 500;
+            display: block;
+        }
+        h1 {
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e0f2fe;
+            border-radius: 4px;
+            color: #0369a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-list">
+        <h1>Générateur de CV</h1>
+        <div class="info">
+            Pour créer votre CV, placez votre fichier YAML dans le dossier 'data/cvs' 
+            et votre photo dans 'data/photos' avec le même nom.
+        </div>
+        {% for cv_id, cv_name in cvs.items() %}
+        <div class="cv-item">
+            <a href="{{ url_for('show_cv', cv_id=cv_id) }}">{{ cv_name }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
