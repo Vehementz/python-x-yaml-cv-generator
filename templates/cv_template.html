@@ -10,6 +10,12 @@
             margin: 20mm;
         }
 
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+
         body {
             font-family: 'Roboto', Arial, sans-serif;
             color: #333;
@@ -236,9 +242,9 @@
         </div>
 
         {% if show_download %}
-        <!-- Download Button -->
-        <div style="text-align: center;">
-            <a href="/download-pdf" class="download-btn">Télécharger en PDF</a>
+        <div style="text-align: center;" class="no-print">
+            <a href="/" class="download-btn">Retour</a>
+            <a href="/download-pdf/{{ cv_id }}" class="download-btn">Télécharger en PDF</a>
         </div>
         {% endif %}
     </div>

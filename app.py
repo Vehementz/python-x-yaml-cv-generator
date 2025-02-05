@@ -80,11 +80,12 @@ def show_cv(cv_id):
     return render_template(
         'cv_template.html',
         cv=cv_data['cv'],
+        cv_id=cv_id,  # On ajoute l'ID ici
         photo=photo_base64,
         show_download=True
     )
 
-@app.route('/cv/<cv_id>/pdf')
+@app.route('/download-pdf/<cv_id>')
 def download_pdf(cv_id):
     """Télécharge le CV en PDF"""
     cv_path = get_cv_path(cv_id)
