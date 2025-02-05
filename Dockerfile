@@ -1,10 +1,7 @@
-# Utiliser une image Python officielle
 FROM python:3.11-slim
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Installer les dépendances système nécessaires pour WeasyPrint
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
@@ -19,24 +16,18 @@ RUN apt-get update && apt-get install -y \
     shared-mime-info \
     && rm -rf /var/lib/apt/lists/*
 
-# Copier les fichiers de dépendances
 COPY requirements.txt .
 
-# Installer les dépendances Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier les fichiers de l'application
 COPY app.py .
 COPY templates/ templates/
 COPY cv_sample.yaml .
 COPY photo_sample.jpg .
 
-# Exposer le port
 EXPOSE 5000
 
-# Variables d'environnement
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
-# Commande de démarrage
 CMD ["flask", "run", "--host=0.0.0.0"]
