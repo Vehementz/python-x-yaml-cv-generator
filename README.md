@@ -1,4 +1,4 @@
-# Python x Yaml CV GEn 📄
+# Python x Yaml CV Gen 📄
 
 Un générateur de CV professionnel utilisant Flask et WeasyPrint pour créer des CV élégants au format HTML et PDF à partir de données YAML.
 
@@ -26,15 +26,6 @@ cd cv-generator
 2. Construire et lancer avec Docker Compose :
 ```bash
 docker-compose up -d --build
-```
-
-Ou avec Docker directement :
-```bash
-# Construire l'image
-docker build -t cv-generator .
-
-# Lancer le conteneur
-docker run -d -p 5000:5000 -v $(pwd)/cv_sample.yaml:/app/cv_sample.yaml:ro --name cv-generator cv-generator
 ```
 
 ### Option 2 : Installation locale
@@ -72,66 +63,110 @@ source venv/bin/activate  # Linux/MacOS
 pip install -r requirements.txt
 ```
 
-## 📝 Configuration
+## 📁 Structure des données
 
-1. Créer votre fichier CV en YAML :
+Les fichiers de CV et photos sont stockés dans les dossiers suivants :
+```
+cv-generator/
+└── data/
+    ├── cvs/            # Fichiers YAML de CV (incluant cv_sample.yaml)
+    └── photos/         # Photos de profil (incluant photo_sample.jpg)
+```
+
+### Format des fichiers
+
+1. CV YAML : 
+   - Placez votre fichier YAML dans `data/cvs/`
+   - Nommez-le avec un identifiant unique (ex: `mon-cv.yaml`)
+   - Vous pouvez vous inspirer de l'exemple fourni `data/cvs/cv_sample.yaml`
+
+2. Photo de profil :
+   - Placez votre photo dans `data/photos/`
+   - Nommez-la avec le même identifiant que votre CV (ex: `mon-cv.jpg`)
+   - Formats supportés : JPG, JPEG, PNG
+
+### Exemple de création de CV
+
+1. Créez votre CV :
+```bash
+# Copier l'exemple
+cp data/cvs/cv_sample.yaml data/cvs/mon-cv.yaml
+
+# Éditer le fichier avec vos informations
+nano data/cvs/mon-cv.yaml
+```
+
+2. Ajoutez votre photo :
+```bash
+cp votre-photo.jpg data/photos/mon-cv.jpg
+```
+
+3. Accédez à votre CV :
+   - Ouvrez `http://localhost:5000` dans votre navigateur
+   - Cliquez sur votre CV dans la liste
+   - Ou accédez directement via `http://localhost:5000/cv/mon-cv`
+
+## 📋 Format YAML
+
+Le fichier YAML supporte les balises HTML dans les champs texte :
 ```yaml
 cv:
   resume:
-    summary: "Votre résumé professionnel"
-  experiences:
-    - period: "2023 - Aujourd'hui"
-      company: "Entreprise"
-      title: "Poste"
-      responsibilities:
-        - "Description du poste"
+    summary: |
+      <strong>Ingénieur DevOps</strong> avec plus de 8 ans d'expérience...
 ```
 
-2. Ajouter votre photo de profil :
-   - Placez votre photo au format JPG dans le dossier du projet
-   - Nommez-la `photo_sample.jpg`
-
-## 🖥️ Utilisation
-
-1. Accéder à l'interface :
-   - Ouvrir `http://localhost:5000` dans votre navigateur
-   - Visualiser votre CV en HTML
-   - Utiliser le bouton "Télécharger en PDF" pour obtenir la version PDF
+Structure complète :
+```yaml
+cv:
+  resume:
+    name: "Votre Nom"
+    summary: "Votre résumé"
+  
+  experiences:
+    - period: "2022 - Aujourd'hui"
+      company: "Nom de l'entreprise"
+      title: "Titre du poste"
+      responsibilities:
+        - "Description de la responsabilité 1"
+        - "Description de la responsabilité 2"
+  
+  education:
+    - period: "2018 - 2020"
+      diploma: "Nom du diplôme"
+      institution: "Nom de l'école"
+  
+  skills:
+    technique:
+      - "Compétence 1"
+      - "Compétence 2"
+    langues:
+      - "Langue 1"
+      - "Langue 2"
+```
 
 ## 🛠️ Structure du projet
 
 ```
 cv-generator/
 ├── app.py               # Application Flask
-├── cv_sample.yaml       # Exemple de CV
-├── photo_sample.jpg     # Photo de profil
-├── requirements.txt     # Dépendances Python
-├── Dockerfile           # Configuration Docker
-├── docker-compose.yml   # Configuration Docker Compose
-└── templates/
-    └── cv_template.html # Template du CV
+├── config/
+│   └── settings.py      # Configuration du projet
+├── data/               # Données des CV et photos
+│   ├── cvs/
+│   └── photos/
+├── templates/          # Templates HTML
+├── requirements.txt    # Dépendances Python
+├── Dockerfile         
+└── docker-compose.yaml
 ```
 
-## 📋 Format YAML
+## ⚙️ Personnalisation du style
 
-Le fichier YAML supporte les balises HTML :
-```yaml
-title: "<strong>Développeur Full Stack</strong>"
-```
-
-### Exemple Complet
-Voir le fichier `cv_sample.yaml` pour un exemple complet de structure.
-
-## ⚙️ Personnalisation
-
-### Modification du style
-- Le template utilise des variables CSS pour les couleurs
+Le template utilise des variables CSS pour les couleurs et la mise en page :
 - Les dimensions sont optimisées pour le format A4
-- La mise en page est contrôlée par CSS Grid
-
-### Ajout d'emojis
-- Les emojis sont supportés dans tous les champs texte
-- Utilisez-les pour les titres de sections ou les compétences
+- La mise en page utilise CSS Grid et Flexbox
+- Les couleurs peuvent être modifiées via les variables CSS
 
 ## 🐳 Docker
 
@@ -140,10 +175,10 @@ Voir le fichier `cv_sample.yaml` pour un exemple complet de structure.
 - `FLASK_ENV`: Environnement Flask (défaut: production)
 
 ### Volumes
-Le fichier `cv_sample.yaml` est monté en lecture seule dans le conteneur.
+- `./data:/app/data`: Stockage des CVs et photos (lecture/écriture)
 
 ### Ports
-Le port 5000 est exposé et peut être mappé selon vos besoins.
+Le port 5000 est exposé et mappé sur l'hôte.
 
 ## 📄 Licence
 
