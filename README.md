@@ -34,9 +34,6 @@ docker-compose up -d --build
 
 - Python 3.8 ou supérieur
 - pip
-- pip (gestionnaire de paquets Python)
-
-
 
 #### Installation du projet
 
