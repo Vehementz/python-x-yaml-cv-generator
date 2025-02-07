@@ -6,6 +6,40 @@
     <title>Curriculum Vitae</title>
     
     <style>
+        :root {
+            /* Thème clair (par défaut) */
+            --bg-color: white;
+            --text-color: #333;
+            --header-bg: #f3f4f6;
+            --content-bg: #f9f9f9;
+            --sidebar-bg: #f4f4f5;
+            --title-color: #1f2937;
+            --subtitle-color: #4b5563;
+            --accent-color: #4f46e5;
+            --badge-bg: #e4e4e7;
+            --badge-text: #333;
+            --company-color: #555;
+            --period-color: #888;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Thème sombre */
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --header-bg: #2d2d2d;
+            --content-bg: #2d2d2d;
+            --sidebar-bg: #3d3d3d;
+            --title-color: #ffffff;
+            --subtitle-color: #cccccc;
+            --accent-color: #8b8bff;
+            --badge-bg: #4d4d4d;
+            --badge-text: #ffffff;
+            --company-color: #cccccc;
+            --period-color: #999999;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         @page {
             size: A4;
             margin: 20mm;
@@ -21,31 +55,48 @@
             .content{
                 height:100% !important;
             }
+            /* Forcer le thème clair pour l'impression */
+            :root {
+                --bg-color: white !important;
+                --text-color: #333 !important;
+                --header-bg: #f3f4f6 !important;
+                --content-bg: #f9f9f9 !important;
+                --sidebar-bg: #f4f4f5 !important;
+                --title-color: #1f2937 !important;
+                --subtitle-color: #4b5563 !important;
+                --accent-color: #4f46e5 !important;
+                --badge-bg: #e4e4e7 !important;
+                --badge-text: #333 !important;
+                --company-color: #555 !important;
+                --period-color: #888 !important;
+            }
         }
 
         body {
             font-family: 'Roboto', Arial, sans-serif;
-            color: #333;
+            color: var(--text-color);
             margin: 10px;
             padding: 0;
+            background: var(--bg-color);
+            transition: background-color 0.3s ease;
         }
 
         .container {
             max-width: 800px;
             margin: auto;
-            background: white;
+            background: var(--bg-color);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px var(--shadow);
         }
 
         .header {
             display: flex;
             align-items: center;
-            background-color: #f3f4f6;
-            color: #333;
+            background-color: var(--header-bg);
+            color: var(--text-color);
             padding: 20px;
-            page-break-inside: avoid; /* Empêche le saut de page */
+            page-break-inside: avoid;
         }
 
         .header img {
@@ -63,7 +114,7 @@
         .header h1 {
             margin: 0;
             font-size: 1.8em;
-            color: #1f2937;
+            color: var(--title-color);
         }
 
         .header h2 {
@@ -71,18 +122,18 @@
             line-height: 1.5em;
             font-size: 1.1em;
             font-weight: 300;
-            color: #4b5563;
+            color: var(--subtitle-color);
         }
 
         .content {
             display: flex;
             flex-direction: row;
-            background: #f9f9f9;
+            background: var(--content-bg);
             margin-top: 0;
         }
 
         .sidebar {
-            background: #f4f4f5;
+            background: var(--sidebar-bg);
             width: 30%;
             padding: 20px;
         }
@@ -95,8 +146,8 @@
         .section-title {
             margin-bottom: 10px;
             font-size: 1.2em;
-            color: #4f46e5;
-            border-bottom: 2px solid #4f46e5;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
             padding-bottom: 5px;
         }
 
@@ -131,8 +182,8 @@
         }
 
         .skill-badge {
-            background: #e4e4e7;
-            color: #333;
+            background: var(--badge-bg);
+            color: var(--badge-text);
             padding: 5px 10px;
             font-size: 0.8em;
             border-radius: 4px;
@@ -146,30 +197,31 @@
         .experience-item h3 {
             margin: 0;
             font-size: 1em;
-            color: #4f46e5;
+            color: var(--accent-color);
         }
 
         .experience-item .company {
             font-size: 0.9em;
-            color: #555;
+            color: var(--company-color);
         }
 
         .experience-item .period {
             font-size: 0.8em;
-            color: #888;
+            color: var(--period-color);
         }
 
         .responsibility {
             font-size: 0.9em;
             list-style-type: disc;
             margin: 20px 0px;
+            color: var(--text-color);
         }
 
         .download-btn {
             display: inline-block;
             margin: 20px;
             padding: 10px 15px;
-            background-color: #4f46e5;
+            background-color: var(--accent-color);
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -181,9 +233,36 @@
             background-color: #3b82f6;
             cursor: pointer; 
         }
+
+        .theme-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background: var(--content-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-switch:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="A4">
+    <button class="theme-switch no-print" onclick="toggleTheme()">
+        <span class="theme-icon">🌞</span>
+        <span class="theme-text">Changer de thème</span>
+    </button>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -255,5 +334,43 @@
         <a onclick="window.print()" class="download-btn">Télécharger en PDF</a>
     </div>
     {% endif %}
+
+    <script>
+        function updateThemeIcon(isDark) {
+            const icon = document.querySelector('.theme-icon');
+            if (icon) icon.textContent = isDark ? '🌙' : '🌞';
+        }
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme === 'dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme === 'dark');
+
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            if (!localStorage.getItem('theme')) {
+                document.documentElement.setAttribute('data-theme', 
+                    prefersDark.matches ? 'dark' : 'light');
+                updateThemeIcon(prefersDark.matches);
+            }
+
+            prefersDark.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    document.documentElement.setAttribute('data-theme',
+                        e.matches ? 'dark' : 'light');
+                    updateThemeIcon(e.matches);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
