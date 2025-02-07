@@ -4,52 +4,114 @@
     <meta charset="UTF-8">
     <title>Générateur de CV</title>
     <style>
+        :root {
+            /* Thème clair (par défaut) */
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --bg-item: #f8fafc;
+            --text-primary: #1f2937;
+            --text-secondary: #4f46e5;
+            --border-color: #e2e8f0;
+            --info-bg: #e0f2fe;
+            --info-text: #0369a1;
+            --shadow: rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Thème sombre */
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-item: #3d3d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #8b8bff;
+            --border-color: #4d4d4d;
+            --info-bg: #2d4a63;
+            --info-text: #89cff0;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background: #f0f2f5;
+            background: var(--bg-primary);
+            transition: all 0.3s ease;
         }
+
+        .theme-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
         .cv-list {
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px var(--shadow);
+            transition: all 0.3s ease;
         }
+
         .cv-item {
             margin: 10px 0;
             padding: 15px;
-            background: #f8fafc;
+            background: var(--bg-item);
             border-radius: 4px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
+
         .cv-item:hover {
-            background: #f1f5f9;
+            background: var(--bg-item);
             transform: translateX(5px);
+            box-shadow: 0 2px 4px var(--shadow);
         }
+
         .cv-item a {
             text-decoration: none;
-            color: #4f46e5;
+            color: var(--text-secondary);
             font-weight: 500;
             display: block;
         }
+
         h1 {
-            color: #1f2937;
+            color: var(--text-primary);
             margin-bottom: 20px;
         }
+
         .info {
             margin: 20px 0;
             padding: 15px;
-            background: #e0f2fe;
+            background: var(--info-bg);
             border-radius: 4px;
-            color: #0369a1;
+            color: var(--info-text);
         }
     </style>
 </head>
 <body>
+    <button class="theme-switch" onclick="toggleTheme()">
+        <span class="theme-icon">🌞</span>
+        <span class="theme-text">Changer de thème</span>
+    </button>
+
     <div class="cv-list">
         <h1>Générateur de CV</h1>
         <div class="info">
@@ -62,5 +124,48 @@
         </div>
         {% endfor %}
     </div>
+
+    <script>
+        // Fonction pour mettre à jour l'icône du thème
+        function updateThemeIcon(isDark) {
+            const icon = document.querySelector('.theme-icon');
+            icon.textContent = isDark ? '🌙' : '🌞';
+        }
+
+        // Fonction pour basculer le thème
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme === 'dark');
+        }
+
+        // Initialisation du thème au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme === 'dark');
+
+            // Détection automatique du thème système
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            if (!localStorage.getItem('theme')) {
+                document.documentElement.setAttribute('data-theme', 
+                    prefersDark.matches ? 'dark' : 'light');
+                updateThemeIcon(prefersDark.matches);
+            }
+
+            // Écoute des changements de thème système
+            prefersDark.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    document.documentElement.setAttribute('data-theme',
+                        e.matches ? 'dark' : 'light');
+                    updateThemeIcon(e.matches);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
