@@ -23,7 +23,14 @@ git clone [URL_DU_REPO]
 cd cv-generator
 ```
 
-2. Construire et lancer avec Docker Compose :
+**Pour la developpement**
+2. Construire et lancer avec Docker Compose de **developpement** :
+```bash
+docker-compose up -d --build
+```
+
+**Pour la production**
+2. Construire et lancer avec Docker Compose de **production** :
 ```bash
 docker-compose up -d --build
 ```
