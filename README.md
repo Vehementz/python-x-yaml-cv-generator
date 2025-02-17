@@ -57,6 +57,11 @@ source venv/bin/activate  # Linux/MacOS
 pip install -r requirements.txt
 ```
 
+3. Démarrer le projet en lcoal
+```bash
+python flask run --host=0.0.0.0
+```
+
 ## 📁 Structure des données
 
 Les fichiers de CV et photos sont stockés dans les dossiers suivants :
