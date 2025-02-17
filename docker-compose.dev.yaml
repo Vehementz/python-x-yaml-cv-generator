@@ -1,11 +1,12 @@
-version: '3.9'
 services:
   cv-generator:
     build: .
     ports:
       - "5000:5000"
     volumes:
-      - .:/app  # Entire project is mounted
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./templates:/app/templates
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
