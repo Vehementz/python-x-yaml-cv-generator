@@ -26,7 +26,7 @@ cd cv-generator
 **Pour la developpement**
 2. Construire et lancer avec Docker Compose de **developpement** :
 ```bash
-docker-compose up -d --build
+docker compose -f docker-compose.dev.yaml up --build
 ```
 
 **Pour la production**
